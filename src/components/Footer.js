@@ -56,7 +56,7 @@ const StyledFooter = styled.div`
 const Footer = ({background}) => (
     <StyledFooter>
         <footer className="footer" role="contentinfo" style={{background: background ? `url(${Background})` : null}}>
-            <p>Join the community!</p>
+            <p>加入社区!</p>
             <div className="footer__icons">
                 <a href="https://twitter.com/theia_ide" target="_blank" rel="noopener noreferrer" className="footer__link">
                     <img src={TwitterLogo} alt="Twitter Logo" className="footer__icon" />

@@ -84,13 +84,13 @@ const Banner = () => (
                 <img src={TheiaLogoEdited} alt="Theia Logo" />
             </div>
             <div>
-                <h3 className="heading-tertiary">Theia versus VS Code</h3>
-                <p>We believe <strong>VS Code is an excellent product</strong>. That is why Theia embraces many of the design decisions and even directly supports VS Code extensions.</p>
-                <div style={{ width: '100%', margin: '2rem 0', maxWidth: 'auto' }}>The most significant differences are:
+                <h3 className="heading-tertiary">Theia 与 VS Code</h3>
+                <p>我们认为<strong>VS Code是出色的产品</strong>。因此，Theia采纳了许多设计决策，甚至直接支持VS Code扩展。</p>
+                <div style={{ width: '100%', margin: '2rem 0', maxWidth: 'auto' }}>最重要的区别是：
                                 <ul>
-                        <li><strong>Theia's architecture is more modular</strong> and allows for way more customizations,</li>
-                        <li>Theia is <strong>designed from the ground to run on Desktop and Cloud</strong>, and</li>
-                        <li>Theia is developed under a <strong>vendor-neutral Open-Source Foundation</strong>.</li>
+                        <li><strong>Theia的体系结构更具模块化</strong>，并允许更多的自定义方式。</li>
+                        <li>Theia 是<strong>专为在桌面端和云端上运行而设计的</strong>。</li>
+                        <li>Theia由<strong>与商业无关的开源基金会</strong>开发。</li>
                     </ul>
                 </div>
             </div>

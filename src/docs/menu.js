@@ -23,14 +23,14 @@ const M = (title, path, subMenu, indented = false) => ({
 
 export const MENU = [
     {
-        title: 'Architecture'
+        title: '架构'
     },
     M(
-        'Overview',
+        '概述',
         'architecture'
     ),
     M(
-        'Extensions',
+        '扩展',
         'extensions'
     ),
     M(
@@ -38,22 +38,22 @@ export const MENU = [
         'services_and_contributions'
     ),
     {
-        title: 'Using Theia'
+        title: '使用'
     },
     M(
-        'Build your own IDE',
+        '构建你的IDE',
         'composing_applications'
     ),
     M(
-        'Authoring Extensions',
+        '开发扩展',
         'authoring_extensions'
     ),
     M(
-        'Authoring Plug-ins',
+        '开发插件',
         'authoring_plugins'
     ),
     M(
-        'Adding Language Support',
+        '新增语言支持',
         'language_support'
     ),
     M(
@@ -63,22 +63,22 @@ export const MENU = [
         true
     ),
     {
-        title: 'Concepts APIs'
+        title: '核心 API'
     },
     M(
         'Commands and Keybindings',
         'commands_keybindings'
     ),
     M(
-        'Preferences',
+        '首选项',
         'preferences'
     ),
     M(
-        'Events',
+        '事件',
         'events'
     ),
     M(
-        'Communication via JSON-RPC',
+        '通过JSON-RPC进行通信',
         'json_rpc'
     )
 ]

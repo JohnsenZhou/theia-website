@@ -2,24 +2,21 @@
 title: Communication via JSON-RPC
 ---
 
-# Communication via JSON-RPC
+# 通过JSON-RPC进行通信
 
-In this section I will explain how you can create a backend service and
-then connect to it over JSON-RPC.
+在本节中我们将介绍如何创建后端服务，然后通过JSON-RPC对它进行连接。
 
-I will use the debug logging system as a small example of that.
+我将使用调试日志记录系统作为其中的一个小示例。
 
-## Overview
+## 概述
 
-This works by creating a service exposed by the express framework and
-then connecting to that over a websocket connection.
+其中大致的工作原理是创建一个基于express框架的服务，再通过websocket进行连接。
 
-## Registering a service
+## 注册服务
 
-So the first thing you will want to do is expose your service so that the
-frontend can connect to it.
+因此，要做的第一件事就是暴露你的服务，以便前端可以连接到它。
 
-You will need to create backend server module file similar to this (logger-server-module.ts):
+你将需要创建与此类似的后端服务器模块文件 (logger-server-module.ts):
 
 ``` typescript
 
@@ -38,7 +35,7 @@ export const loggerServerModule = new ContainerModule(bind => {
 });
 ```
 
-Let's go over that in detail:
+让我们详细介绍一下：
 
 ``` typescript
 import { ConnectionHandler, JsonRpcConnectionHandler } from "../../messaging/common";

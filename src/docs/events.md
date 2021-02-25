@@ -2,11 +2,11 @@
 title: Events
 ---
 
-## Events
+## 事件机制
 
-Events in Theia can be confusing, hopefully we can clarify things.
+Theia中的事件机制可能会令人困惑，希望我们能描述清楚。
 
-Let's consider this code:
+请看以下代码：
 
 (From logger-watcher.ts)
 ``` typescript
@@ -30,7 +30,7 @@ export class LoggerWatcher {
 }
 ```
 
-Let's start with:
+从这里开始看：
 
 ``` typescript
     private onLogLevelChangedEmitter = new Emitter<ILogLevelChangedEvent>();

@@ -2,27 +2,27 @@
 title: README
 ---
 
-# Theia - Cloud & Desktop IDE
+# Theia - 云端 & 桌面端 IDE
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/eclipse-theia/theia/labels/help%20wanted)
 [![Discourse status](https://img.shields.io/discourse/status?color=blue&label=Community&server=https%3A%2F%2Fcommunity.theia-ide.org%2F)](https://community.theia-ide.org/)
 [![Build Status](https://travis-ci.org/eclipse-theia/theia.svg?branch=master)](https://travis-ci.org/eclipse-theia/theia)
 [![Open questions](https://img.shields.io/badge/Open-questions-pink.svg?style=flat-square)](https://github.com/eclipse-theia/theia/labels/question)
 [![Open bugs](https://img.shields.io/badge/Open-bugs-red.svg?style=flat-square)](https://github.com/eclipse-theia/theia/labels/bug)
 
-Theia is an extensible platform to develop full-fledged multi-language Cloud & Desktop IDE-like products with state-of-the-art web technologies.
+Theia 是一个可扩展的平台，可以用最先进的web技术开发多语言的云端 & 桌面端ide应用。
 
 <img src="/theia-screenshot.jpg" alt="Theia IDE Screenshot" class="doc-image">
 
-## Scope
-- Establish a platform to build IDE-like products
-- Provide the end-user with a full-fledged multi-language IDE  (not just a smart editor)
-- Support equally the paradigm of Cloud IDE and Desktop IDE
-- Provide support for multiple languages via the language and debug server protocols
-- Provide modern GUI with javascript UI libraries
+## 能力
+- 提供可以开发类IDE产品的平台。
+- 为终端用户提供一个成熟的多语言IDE（而不仅仅是一个智能编辑器）。
+- 同时支持云端IDE和桌面端IDE。
+- 通过语言和调试服务协议提供对多种语言的支持。
+- 为现代GUI提供javascript UI库。
 
-## Contributing
+## 贡献
 
-Read below to learn how to take part in improving Theia:
+阅读以下内容以了解如何参与改善Theia：
 - Fork the repository and [run the examples from source](https://github.com/eclipse-theia/theia/tree/master/doc/Developing.md#quick-start)
 - Get familiar with [the development workflow](https://github.com/eclipse-theia/theia/tree/master/doc/Developing.md), [Coding Guidelines](https://github.com/eclipse-theia/theia/wiki/Coding-Guidelines), [Code of Conduct](https://github.com/eclipse-theia/theia/tree/master/CODE_OF_CONDUCT.md) and [learn how to sign your work](https://github.com/eclipse-theia/theia/tree/master/CONTRIBUTING.md#sign-your-work)
 - Find an issue to work on and submit a pull request

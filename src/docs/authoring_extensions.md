@@ -2,27 +2,27 @@
 title: Authoring an Extension
 ---
 
-#  Authoring Theia Extensions
+#  开发 Theia 扩展
 
-As an example, we are going to add a menu item _Say hello_ that displays a notification "Hello world!". This article is guiding you through all the necessary steps.
+例如，我们将添加一个菜单项 _Say hello_ 来显示通知“ Hello world！”。本文指导你完成所有必要的步骤。
 
-## Theia’s Architecture
+## Theia 架构
 
-A Theia app is composed of so called _extensions_. An extension provides a set of widgets, commands, handlers, etc. for a specific functionality. Theia itself ships a number of extensions, e.g. for editors, terminals, the project view etc. Each extension resides in its own npm package.
+Theia应用程序由 _extensions_（扩展包）组成。扩展包为特定功能提供了一组小部件，命令，处理程序等。Theia本身提供了许多扩展程序，例如适用于编辑器，终端，项目视图等。每个扩展都是一个单独的npm包。
 
-Theia defines a plethora of contribution interfaces that allow extensions to add their behaviour to various aspects of the application. Just search for interfaces with the name `*Contribution` to get an idea. An extension implements the contribution interfaces belonging to the functionality it wants to deliver. In this example, we are going to implement a `CommandContribution` and a `MenuContribution`. Other ways for extensions to interact with a Theia application are via one of the various _services_ or _managers_.
+Theia定义了大量的 contribution（可扩展）的接口，这些接口允许扩展包将其行为添加到应用程序的各个方面。只需搜索名称为*  `*Contribution` 的接口就可以体会到。一个扩展包需要在 contribution 接口上实现自己的特定功能。在此示例中，我们将实现 `CommandContribution` 和 `MenuContribution`。扩展包与Theia应用程序进行交互的其他方式是通过各种 _services_ 或 _managers_。
 
-In Theia, everything is wired up via [dependency injection](Services_and_Contributions.md#dependency-injection-di). An extension defines one or more dependency injection modules. This is where it binds its contribution implementations to the respective contribution interface. The modules are listed in the `package.json` of the extension package. An extension can contribute to the frontend, e.g. providing a UI extension, as well as to the backend, e.g. contributing a language server. When the application starts, the union of all these modules is used to configure a single, global dependency injection container on each, the frontend and the backend. The runtime will then collect all contributions of a specific kind by means of a multi-inject.
+在Theia，一切都通过[依赖注入](Services_and_Contributions.md#dependency-injection-di)来实现。扩展定义了一个或多个依赖注入模块。这是它将 contribution implementations 绑定到相应 contribution interface 的地方。这些模块在扩展软件包的 `package.json` 中列出。扩展包可以为 frontend 做出contribute，例如提供UI扩展以及 backend，例如提供语言服务器。当应用程序启动时，所有这些模块的并集用于在frontend和backend的每个模块上配置单个全局依赖项注入容器。然后，运行时将通过多次注入收集特定种类的所有 contributions。
 
-## Prerequisites
+## 先决条件
 
-Prerequisites information are available from the [Theia repository](https://github.com/eclipse-theia/theia/blob/master/doc/Developing.md#prerequisites).
+先决条件信息可从[Theia 代码库](https://github.com/eclipse-theia/theia/blob/master/doc/Developing.md#prerequisites)获取。
 
-## Project Layout
+## 项目结构
 
-We are going to create a monorepo (a repository containing multiple npm packages) named `theia-hello-world-extension` containing three packages: `hello-world-extension`, `browser-app` and `electron-app`. The first contains our extension, the latter two the Theia applications to run our extension in browser and electron mode.  We are going to use `yarn` instead of `npm`, because it allows to structure such monorepos into workspaces. In our case, each workspace contains its own `npm` package. Common dependencies of these packages are 'hoisted' by `yarn` to their common root directory. We are also going to use `lerna` to run scripts across workspaces.
+我们将创建一个名为 `theia-hello-world-extension` 的monorepo（包含多个npm软件包的存储库），其中包含三个软件包：`hello-world-extension`，`browser-app` 和 `electron-app`。前一个包含我们的扩展程序，后两个包含Theia应用程序以在 browser 和 electron 下运行我们的扩展程序。我们将使用 `yarn` 而不是 `npm`，因为它允许将这种monorepos结构化到工作区中。在我们的例子中，每个工作区都包含自己的 `npm` 包。这些软件包的公共依赖项通过 `yarn` 提升到其公共根目录。我们还将使用 `lerna` 在工作空间中运行脚本。
 
-To ease the setup of such a repository we have created a [code generator](https://www.npmjs.com/package/generator-theia-extension) to scaffold the project. It will also generate the `hello-world` example. Run it using
+为了简化此类代码库的设置，我们创建了[代码生成器](https://www.npmjs.com/package/generator-theia-extension)来构建项目。它还将生成 `hello-world` 示例。如下：
 
 ```bash
 npm install -g yo generator-theia-extension
@@ -31,7 +31,7 @@ cd theia-hello-world-extension
 yo theia-extension # select the 'Hello World' option and complete the prompts
 ```
 
-Let's have look at the generated code now. The root `package.json` defines the workspaces, the dependency to `lerna` and some scripts to rebuild the native packages for browser or electron.
+现在让我们看一下生成的代码。根目录下的 `package.json` 定义了workspaces、对 `lerna` 的依赖关系以及一些用于rebuild browser 或 electron 的本机软件包的脚本。
 
 ```json
 {
@@ -50,7 +50,7 @@ Let's have look at the generated code now. The root `package.json` defines the w
 }
 ```
 
-We also got a `lerna.json` file to configure `lerna`:
+我们还有一个 `lerna.json` 文件来配置 `lerna`：
 
 ```json
 {
@@ -66,11 +66,11 @@ We also got a `lerna.json` file to configure `lerna`:
 }
 ```
 
-## Implementing the Extension
+## 实现扩展包
 
-Next let's look at the generated code for our extension in the `hello-world-extension` folder. Let’s start with the `package.json`. It specifies the package’s metadata, its dependencies to the (bleeding edge) Theia core package, a few scripts and dev dependencies, and the theia-extensions.
+接下来，让我们在 `hello-world-extension` 文件夹中查看生成的代码。我们可以从 `package.json` 开始。 它指定了程序包的元数据，`dependencies` 对 `@theia/core` 的依赖，`scripts`和 `devDependencies` 以及 `theiaExtensions`。
 
-The keyword `theia-extension` is important: It allows a Theia app to identify and install Theia extensions from `npm`.
+keywords 中的 `theia-extension` 很重要，它指定了Theia应用程序从 `npm` 识别并安装Theia扩展。
 
 ```json
 {
@@ -104,9 +104,9 @@ The keyword `theia-extension` is important: It allows a Theia app to identify an
 }
 ```
 
-The last property `theiaExtensions` is where we list the JavaScript modules that export the DI modules defining the contribution bindings of our extension. In our case, we only provide a frontend capability (a command and a menu entry). Analogously, you could also define contributions to the backend, e.g. a language contribution with a language server.
+最后一个属性 `theiaExtensions` 是我们列出JavaScript模块的地方，这些模块导出DI模块，这些DI模块定义了扩展的 contribution 绑定。在这个例子中，我们仅提供 frontend 功能（命令和菜单项）。类似地，你也可以定义对 backend 的 contributions，例如语言服务器的语言 contributions。
 
-In the frontend module we export a default object that is a [InversifyJS `ContainerModule`](https://github.com/inversify/InversifyJS/blob/master/wiki/container_modules.md) with bindings for a command contribution and a menu contribution.
+在 frontend 模块中，我们导出一个默认对象，它是一个[InversifyJS `ContainerModule`](https://github.com/inversify/InversifyJS/blob/master/wiki/container_modules.md)，带有用于 command contribution 和 menu contribution 的绑定。
 
 ```typescript
 export default new ContainerModule(bind => {
@@ -116,7 +116,7 @@ export default new ContainerModule(bind => {
 });
 ```
 
-A command is a plain data structure defining an ID and a label. The behaviour of a command is implemented by registering a handler to its ID in a command contribution. The generator has already added a command and a handler that shows a "Hello World!" message.
+command 是定义ID和标签的纯数据结构。通过在 command contribution 中将处理程序注册为其ID来实现 command 的行为。生成器已经添加了显示"Hello World!"信息的命令和处理程序。
 
 ```typescript
 export const HelloWorldCommand = {
@@ -140,9 +140,9 @@ export class HelloWorldCommandContribution implements CommandContribution {
 ...
 ```
 
-Note how we use `@inject` in the constructor to get the `MessageService` as a property, and how we use that later in the implementation of the handler. This is the elegance of dependency injection: As a client, we neither care where these dependencies come from nor what their lifecycle is.
+注意我们如何在构造函数中使用 `@inject` 来获取 `MessageService` 作为属性，以及稍后在处理程序实现中如何使用它。这就是依赖注入的优雅之处：作为消费方，我们既不在乎这些依赖来自何处，也不在乎其生命周期是什么。
 
-To make it accessible by the UI, we implement a `MenuContribution`, adding an item to the Search/Replace section of the edit menu in the menu bar.
+为了使它可以通过UI进行访问，我们实现了 `MenuContribution`，在菜单栏中的编辑菜单的“搜索/替换”部分添加了一个项目。
 
 ```typescript
 ...
@@ -158,9 +158,9 @@ export class HelloWorldMenuContribution implements MenuContribution {
 }
 ```
 
-## Executing the Extension In the Browser
+## 在浏览器中执行扩展
 
-Now we want to see our extension in action. For this purpose, the generator has created a `package.json` in the folder `browser-app`. It defines a Theia browser application with a couple of statically included extensions, including our `hello-world-extension`. All remaining files in this directory have been auto-generated by `yarn` calling the `theia-cli` tool during the build, as defined in the scripts section.
+现在我们来看如何将扩展包在项目中跑起来。我们在`browser-app` 文件下生成了 `package.json` 文件。它定义了一个Theia浏览器应用程序，其中包含了一些扩展，包括我们的 `hello-world-extension`。如 `scripts` 部分中所定义，此目录中的所有剩余文件都是通过 `yarn` 在构建过程中调用 `theia-cli` 工具自动生成。
 
 ```json
 {
@@ -195,19 +195,18 @@ Now we want to see our extension in action. For this purpose, the generator has 
 }
 ```
 
-Now we have all pieces together to build and run the application.
-To run the browser app, enter:
+现在，我们将所有部分组装在一起，以构建和运行该应用程序。要运行 browser 应用程序，请输入：
 
 ```bash
 cd browser-app
 yarn start <path to workspace>
 ```
 
-and point your browser to http://localhost:3000. Then choose _Edit > Say Hello_ from the menu: A message "Hello World!" should pop up.
+在浏览器中打开 http://localhost:3000。然后从菜单中选择 _Edit > Say Hello_，就会弹出 "Hello World!"。
 
-## Executing the Extension In Electron
+## 在 Electron 中执行扩展
 
-The `package.json` for the Electron app looks almost the same, except for the name and the target property.
+Electron应用程序的 `package.json` 看起来几乎相同，除了name和target属性。
 
 ```json
 {
@@ -219,7 +218,7 @@ The `package.json` for the Electron app looks almost the same, except for the na
 }
 ```
 
-Before running the electron app, you additionally have to rebuild some native modules:
+在运行Electron应用程序之前，你还必须重新构建本地模块：
 
 ```bash
 yarn rebuild:electron
@@ -227,6 +226,6 @@ cd electron-app
 yarn start <path to workspace>
 ```
 
-## Deploying the Extension
+## 部署扩展
 
-If you want to make your extension publicly available, we recommend to publish it to npm. This can be achieved by calling `yarn publish` from the extension package's directory. Of course you need a valid account for that.
+如果你想公开扩展包，我们建议将其发布到npm。这可以通过调用扩展包目录中的 `yarn publish` 来实现。当然，你需要一个有效的帐户。

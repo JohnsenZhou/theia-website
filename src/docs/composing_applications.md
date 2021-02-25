@@ -3,23 +3,23 @@ title: Build your own IDE
 ---
 
 
-# Build your own IDE
+# 构建你的IDE
 
-This guide will teach you how to build your own Theia application.
+本指南将教你如何构建自己的Theia应用程序。
 
-## Requirements
+## 要求
 
-The detailed list of prerequisites is located at the main Theia repository:
+先决条件的详细列表位于主要的Theia代码库中：
 - [Prerequisites](https://github.com/eclipse-theia/theia/blob/master/doc/Developing.md#prerequisites)
 
-## Setup
+## 设置
 
-Start with creating a new empty directory and moving into it:
+首先创建一个新的空目录并进入其中：
 
     mkdir my-app
     cd my-app
 
-Create `package.json` in this directory:
+在目录下创建 `package.json`：
 
 ```json
 {
@@ -45,27 +45,20 @@ Create `package.json` in this directory:
 }
 ```
 
-In a nutshell, Theia applications and extensions are [Node.js packages](https://nodesource.com/blog/the-basics-of-package-json-in-node-js-and-npm/). Each package has a `package.json` file that manifests package metadata,
-like `name`, `version`, its runtime and build time dependencies and so on.
+简而言之，Theia应用程序和扩展包都是[Node.js packages](https://nodesource.com/blog/the-basics-of-package-json-in-node-js-and-npm/)。每个软件包都有一个package.json文件，该文件可显示软件包元数据，例如名称，版本，其运行时和构建时间依赖性等。如 `name`，`version`，其运行时间和构建时间依赖性等。
 
-Let's have a look at the created package:
-  - Its `name` and `version` are omitted since we are not going to use it as a dependency, and
-    it's marked as `private` since it is not going to be published as a Node.js package on its own.
-  - We've listed required extensions as runtime dependencies, e.g. `@theia/navigator`.
-    - Some extensions require additional tooling installed,
-    For instance, [@theia/python](https://www.npmjs.com/package/@theia/python) requires
-    [the Python Language Server](https://github.com/palantir/python-language-server) to be installed.
-    In such cases, please consult the corresponding extension documentation.
-    - Use [this link](https://www.npmjs.com/search?q=keywords:theia-extension) to see all published extensions.
-  - We've listed [@theia/cli](https://www.npmjs.com/package/@theia/cli) as a build-time dependency. It provides scripts to build and run the application.
+让我们看一下创建的 package：
+  - 因为我们不会将其用作依赖项，所以省略了它的`name`和`version`，并且由于它不会单独作为Node.js包发布，因此将其标记为`private`。
+  - 我们已将所需的扩展列为运行时依赖项，例如 `@theia/navigator`。
+    - 某些扩展程序需要安装其他工具，例如 [@theia/python](https://www.npmjs.com/package/@theia/python) 需要安装[Python 语言服务](https://github.com/palantir/python-language-server)。在这种情况下，请查阅相应的扩展文档。
+    - 点击[此链接](https://www.npmjs.com/search?q=keywords:theia-extension)查看所有已发布的扩展。
+  - 我们将 [@theia/cli](https://www.npmjs.com/package/@theia/cli) 列为构建时依赖项。它提供了用于构建和运行应用程序的脚本。
 
-## Consuming VS Code Extensions
+## 使用VS code扩展
 
-As part of your application, it is also possible to consume (and package) VS Code extensions.
-The [Theia repository](https://github.com/eclipse-theia/theia/wiki/Consuming-Builtin-and-External-VS-Code-Extensions) contains a guide on how to
-include such extensions as part of the application's `package.json`.
+作为应用程序的一部分，也可以使用（和打包）VS Code扩展。[Theia 代码库](https://github.com/eclipse-theia/theia/wiki/Consuming-Builtin-and-External-VS-Code-Extensions)包含有关如何将此类扩展包含在应用程序的`package.json`中的指南。
 
-An example `package.json` may look like the following:
+一个示例 `package.json` 可能如下所示：
 
 ```json
 {
@@ -110,52 +103,46 @@ An example `package.json` may look like the following:
 }
 ```
 
-## Building
+## 构建
 
-First, install all dependencies.
+首先，安装所有依赖项。
 
     yarn
 
-Second, use Theia CLI to build the application.
+其次，使用Theia CLI构建应用程序。
 
     yarn theia build
 
-`yarn` looks up `theia` executable provided by `@theia/cli` in the context of our application
-and then executes the `build` command with `theia`.
-This can take a while since the application is built in production mode by default,
-i.e. obfuscated and minified.
+`yarn` 在我们的应用程序上下文中查找 `@theia/cli` 提供的 `theia` 可执行文件，然后使用 `theia` 执行  `build` 命令。
+由于应用程序默认情况下是在生产模式下构建的（即经过混淆和缩小），因此可能需要一段时间。
 
-## Running
+## 运行
 
-After the build is finished, we can start the application:
+构建完成后，我们可以启动应用程序：
 
     yarn start
 
-You can provide a workspace path to open as a first argument
-and `--hostname`, `--port` options to deploy the application on specific network interfaces and ports,
-e.g. to open `/workspace` on all interfaces and port `8080`:
+你可以提供一个 `workspace` 路径作为第一个参数打开，并提供 `--hostname` 和 `--port` 选项以将应用程序部署在特定的网络接口和端口上，例如在所有接口和端口 `8080` 上打开 `/workspace`：
 
     yarn start /my-workspace --hostname 0.0.0.0 --port 8080
 
-In the terminal, you should see that Theia application is up and listening:
+在终端中，你应该看到Theia应用程序已启动并正在侦听：
 
 <img class="doc-image" src="/docs-terminal.png" alt="Terminal" style="max-width: 750px">
 
-Open the application by entering the printed address in a new browser page.
+通过在新的浏览器页面中输入打印的地址来打开应用程序。
 
-## Troubleshooting
+## 故障排除
 
-### Plugins not appearing
+### 找不到插件
 
-If no plugins are available in the running Theia instance, it may be that you need to tell Theia where to find the downloaded plugins.
-The example above sets the `--plugins` switch in the `start` command which should be sufficient.
-However if running `theia start` directly, you can alternatively set an environment variable to achieve the same thing:
+如果正在运行的Theia实例中没有可用的插件，则可能是您需要告诉Theia在哪里可以找到下载的插件。上面的示例在 `start` 命令中设置了 `--plugins` 开关，这应该足够了。但是，如果直接运行 `theia start`则可以选择设置环境变量来实现相同的目的：
 
     export THEIA_DEFAULT_PLUGINS=local-dir:plugins
 
-### Building native dependencies behind a proxy
+### 在代理后构建本机依赖
 
-If you run the `yarn` command behind a proxy you may encounter issues in building native dependencies (like `oniguruma`), in the last part of the build, with the following error stack:
+如果在代理后面运行 `yarn` 命令，则在构建的本机依赖项（例如 `oniguruma` ）中可能会在构建的最后部分遇到问题，并带有以下错误堆栈：
 
     [4/4] Building fresh packages...
     [1/9]  XXXXX
@@ -181,8 +168,7 @@ If you run the `yarn` command behind a proxy you may encounter issues in buildin
     gyp ERR! cwd /theiaide/node_modules/XXXXX
     gyp ERR! node -v v8.15.0
 
-This happens because node-gyp does not rely on system/NPM proxy settings. In that case, download the `node-headers` file using the link provided in the error stack
-(in the example above `https://nodejs.org/download/release/v8.15.0/node-v8.15.0-headers.tar.gz`) and run the build with the following command:
+发生这种情况是因为node-gyp不依赖 system/NPM 代理设置。在这种情况下，请使用错误堆栈中提供的链接下载  `node-headers` 文件（如上所示：https://nodejs.org/download/release/v8.15.0/node-v8.15.0-headers.tar.gz ），并使用以下命令运行构建：
 
      npm_config_tarball=/path/to/node-v8.15.0-headers.tar.gz yarn install
 

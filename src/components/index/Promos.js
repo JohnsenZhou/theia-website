@@ -30,22 +30,21 @@ const StyledPromos = styled.div`
 
 const promos = [
     {
-        title: "Supports JavaScript, Java, Python and many more",
+        title: "支持 JavaScript, Java, Python 等语言",
         para: <p>
-            Built on the <a href="https://microsoft.github.io/language-server-protocol/" target="_blank" rel="noopener noreferrer">Language Server Protocol</a>,
-            Theia benefits from a growing ecosystem of <strong>over 60 available language servers</strong>, delivering intelligent editing support
-            for all major programming languages.
+            基于 <a href="https://microsoft.github.io/language-server-protocol/" target="_blank" rel="noopener noreferrer">LSP</a>协议,
+            Theia 得益于<strong>60多种可用语言服务器</strong>的不断发展的生态系统，为所有主要编程语言提供智能编辑支持。
         </p>,
         videoSrc: CompletionVideo
     },
     {
-        title: "Integrated Terminal",
-        para: <p>Theia integrates a full-featured terminal that reconnects on browser reload, keeping the full history.</p>,
+        title: "终端集成",
+        para: <p>Theia 集成了功能齐全的终端，可在重新加载浏览器时重新连接，以保留完整的历史记录。</p>,
         videoSrc: TermianlVideo
     },
     {
-        title: "Flexible Layout",
-        para: <p>Theia's shell is composed of lightweight modular widgets that provide a solid foundation for draggable dock layouts.</p>,
+        title: "弹性布局",
+        para: <p>Theia整体由轻巧的模块化小部件组成，这些小部件为可拖动的布局提供了坚实的基础。</p>,
         videoSrc: LayoutVideo
     }
 ]

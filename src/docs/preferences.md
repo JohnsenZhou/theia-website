@@ -4,11 +4,11 @@ title: Preferences
 
 # Preferences
 
-Theia has a preference service which allows modules to get preference values, contribute default preferences and listen for preference changes.
+Theia有一个首选项服务，该服务允许模块获取首选项值，提供默认首选项并监听首选项更改。
 
-Preferences can be saved in the root of the workspace under `.theia/settings.json` or under `$HOME/.theia/settings.json` on Linux systems. For Windows systems, the user settings will by default be in the `%USERPROFILE%/.theia/settings.json` (something like `C:\Users\epatpol\.theia/settings.json`)
+首选项可以保存在工作空间的根目录下的 `.theia/settings.json` 或Linux系统的 `$HOME/.theia/settings.json` 下。对于Windows系统，默认情况下用户设置将位于 `%USERPROFILE%/.theia/settings.json` 中（类似于`C:\Users\epatpol\.theia/settings.json`）。
 
-As of right now the files must contain a valid a JSON containing the names and values of preferences (note that the following preference names are not official and only used as an example). You can also add comments to the settings.json file if needed i.e
+文件必须包含一个有效的JSON，其中包含首选项的名称和值（请注意，以下首选项名称不是官方的，仅用作示例）。你还可以根据需要将注释添加到settings.json文件，如下：
 
 ```
 {
@@ -20,11 +20,11 @@ As of right now the files must contain a valid a JSON containing the names and v
 }
 ```
 
-Let's take the filesystem as an example of a module using the preference service
+让我们以使用首选项服务的 filesystem 作为示例：
 
-## Contributing default preferences as a module with inversify
+## 使用 Inverseify 将默认首选项作为模块进行改造
 
-To contribute some preference values. A module must contribute a valid json schema that will be used to validate the preferences. A module must bind the following PreferenceContribution to a value like this:
+提供一些首选项的值。模块必须提供有效的json schema，该 schema 将用于验证首选项配置。模块必须将以下PreferenceContribution 绑定到这样的值：
 
 ```typescript
 export interface PreferenceSchema {
@@ -40,6 +40,7 @@ export interface PreferenceContribution {
 ```
 
 For instance, the filesystem binds it like so:
+例如，文件系统将其绑定为：
 ```typescript
 export const filesystemPreferenceSchema: PreferenceSchema = {
     "type": "object",
@@ -59,20 +60,20 @@ bind(PreferenceContribution).toConstantValue(
 });
 ```
 
-Here are some useful links for contributing a validation schema:
+以下是一些有助于编写验证schema的链接：
 
 * [JSON schema spec](http://json-schema.org/documentation.html)
 * [Online JSON validator](https://jsonlint.com/)
 * [Online JSON schema validator](http://www.jsonschemavalidator.net/)
 
-## Listening for a preference change via a configuration
+## 通过配置侦听首选项更改
 
-To use the value of a preference, simply get the injected PreferenceService from the container
+要使用首选项的值，只需从容器中获取注入的PreferenceService
 ```typescript
 const preferences = ctx.container.get(PreferenceService);
 ```
 
-In the case of the filesystem, the service is fetched at the beginning for the bindings. There, you can use the onPreferenceChanged method to register a pref changed callback.
+对于文件系统，该服务是在绑定开始时获取的。在这里，你可以使用 onPreferenceChanged 方法注册首选项更改的回调。
 
 ```typescript
 
@@ -80,7 +81,7 @@ constructor(@inject(PreferenceService) protected readonly prefService: Preferenc
 	prefService.onPreferenceChanged(e => { callback }
 ```
 
-where the event received `e` is like this:
+回调参数 `e`:
 
 ```typescript
 export interface PreferenceChangedEvent {
@@ -90,7 +91,7 @@ export interface PreferenceChangedEvent {
 }
 ```
 
-Although this can be used directly in the needed class, the filesystem provides a proxy preference service specific to the filesystem preferences (which uses the preference service in the background). This allows for faster and more efficient searching for the preference (as it searches for the preference in the filesystem preference service, and not on all preferences via the more generic preference service). It's also more efficient in the sense that only the modules watching for specific preferences related to a module will be notified. To do so, there is a proxy interface for the filesystem configuration that is bound like so using the preference proxy interface:
+尽管可以直接在所需的类中使用它，但是文件系统提供了特定于文件系统首选项的代理首选项服务（它在后台使用首选项服务）。这允许更快，更有效地搜索首选项（因为它在文件系统首选项服务中搜索首选项，而不是通过更通用的首选项服务在所有首选项中搜索首选项）。从某种意义上说，只有通知正在监视与模块相关的特定首选项的模块才更有效。为此，有一个绑定文件系统配置的代理接口，就像使用首选项代理接口一样：
 
 ```typescript
 export type PreferenceProxy<T> = Readonly<T> & Disposable & PreferenceEventEmitter<T>;
@@ -103,7 +104,8 @@ export function createPreferenceProxy<T extends Configuration>(preferences: Pref
     It basically forwards methods to the real object, i.e dispose/ready etc.
 }
 ```
-To use that proxy, simply bind it to a new type X = PreferenceProxy<CONFIGURATION_INTERFACE> and then bind(X) to a proxy using the method above.
+
+要使用该代理，只需将其绑定到新的类型 X = PreferenceProxy<CONFIGURATION_INTERFACE>，然后使用上述方法将 X 绑定到代理。
 
 ```typescript
 export interface FileSystemConfiguration {
@@ -129,13 +131,13 @@ export function bindFileSystemPreferences(bind: interfaces.Bind): void {
 }
 ```
 
-Finally, to use the filesystem configuration in your module. Simply inject it where you need it. You can then access the preference like so (filesystem example) :
+最后，在模块中使用文件系统配置。只需在需要时将其注入即可。然后，你可以像这样访问首选项：
 
 ```typescript
 const patterns = this.preferences['files.watcherExclude'];
 ```
 
-and you can also register for preference change like so:
+你还可以像这样注册首选项更改：
 
 ```typescript
 this.toDispose.push(preferences.onPreferenceChanged(e => {
@@ -159,19 +161,19 @@ constructor(...,
 }
 ```
 
-## Preference flow when modifying a preference
+## 修改首选项时的首选项流程
 
-As of right now, when a settings.json is modified either in the ${workspace}/.theia/ or in the `os.homedir()`/.theia/, this will trigger an event from the JSON preference server. Currently, there's a CompoundPreferenceServer that manages the different servers (scopes) like workspace/user/defaults (provided via the contributions above). Next, the PreferenceService manages this server and adds a more convenient api on top of it (i.e getBoolean, getString etc.). It also allows clients to registers for preference changes. This PreferenceService can then be used either directly via injection in the modules, or via a more specific proxy (like the filesystem configuration from above).
+在 ${workspace}/.theia/ 或 `os.homedir()`/.theia/ 中修改settings.json时，这将触发JSON首选项服务器中的事件。当前，有一个CompoundPreferenceServer可以管理不同的服务器（范围），例如 workspace/user/defaults（通过上面的contributions提供）。接下来，PreferenceService管理该服务器并在其之上添加一个更方便的api（即getBoolean，getString等）。它还允许客户注册首选项更改。然后，可以直接通过在模块中注入或通过更特定的代理（例如上面的文件系统配置）来使用此PreferenceService。
 
-In the case of the preference file being modified, the flow would then be:
+这里例子中，修改首选项文件后的流程为：
 
 ```
 .theia/settings.json -> JsonPreferenceServer -> CompoundPreferenceServer -> PreferenceService -> PreferenceProxy<FileSystemConfiguration> -> FileSystemWatcher
 ```
 
-## Fetching the value of a preference
+## 获取首选项的值
 
-In the case of the filesystem, one would use the same proxied config as above to access the preferences.
+对于 filesystem，将使用与上述相同的代理配置来访问首选项。
 
 ```typescript
     if (this.prefService['preferenceName']) {
@@ -184,7 +186,7 @@ In the case of the filesystem, one would use the same proxied config as above to
 })
 ```
 
-This works because, as we have seen it above, the proxy will simply call prefService.get('preferenceName').
+之所以如此，是因为如上所述，该代理将仅调用 prefService.get('preferenceName')。
 
 ## TODO/FIXME for preferences
 * Add scopes with server priority in CompoundPreferenceServer

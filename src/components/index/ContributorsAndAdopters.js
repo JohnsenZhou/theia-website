@@ -89,7 +89,7 @@ const ContributorsAndAdopters = () => (
     <div className="row">
         <Styled>
             <section className="contributors" >
-                <h3 className="heading-tertiary">Contributors & Adopters</h3>
+                <h3 className="heading-tertiary">贡献者 & 采用者</h3>
                 <div className="contributors__images">
                     {
                         contributorsAndAdopters.map((item, i) => (

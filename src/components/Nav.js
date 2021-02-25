@@ -193,19 +193,19 @@ class Nav extends React.Component {
                     </div>
                     <ul className={`nav__items ${this.state.isNavRendered ? 'navIsRendered' : 'navIsNotRendered' }`}>
                         <li className="nav__item">
-                            <Link to="/#features" className="nav__link">Features</Link>
+                            <Link to="/#features" className="nav__link">功能</Link>
                         </li>
                         <li className="nav__item">
-                            <Link to="/docs/" className="nav__link" activeClassName="active">Documentation</Link>
+                            <Link to="/docs/" className="nav__link" activeClassName="active">文档</Link>
                         </li>
                         <li className="nav__item">
-                            <a href="https://community.theia-ide.org/" target="_blank" rel="noopener" className="nav__link">Community</a>
+                            <a href="https://community.theia-ide.org/" target="_blank" rel="noopener" className="nav__link">社区</a>
                         </li>
                         <li className="nav__item">
-                            <a href="https://www.typefox.io/theia/" className="nav__link" target="_blank" rel="noopener">Support</a>
+                            <a href="https://www.typefox.io/theia/" className="nav__link" target="_blank" rel="noopener">支持</a>
                         </li>
                         <li className="nav__item">
-                            <a href="https://www.typefox.io/trainings/" className="nav__link" target="_blank" rel="noopener">Training</a>
+                            <a href="https://www.typefox.io/trainings/" className="nav__link" target="_blank" rel="noopener">教程</a>
                         </li>
                     </ul>
                 </nav>

@@ -2,58 +2,40 @@
 title: Overview
 ---
 
-# Architecture Overview
+# 架构概述
 
-This section describes the overall architecture of Theia.
+本节介绍 Theia 的整体架构。
 
-Theia is designed to work as a native desktop application as well as in the
-context of a browser and a remote server. To support both situations with a
-single source, Theia runs in two separate processes. Those processes are called
-_frontend_ and _backend_ respectively, and they communicate through JSON-RPC
-messages over WebSockets or REST APIs over HTTP. In the case of Electron, the
-backend, as well as the frontend, run locally, while in a remote context the
-backend would run on a remote host.
+Theia旨在用作本机桌面应用程序以及在浏览器和远程服务器的环境中使用。为了让同一代码支持两种情况，Theia在两个单独的进程中运行，从而使一套代码能支持两种场景。这些进程分别称为前端和后端，它们通过WebSocket上的JSON-RPC消息或HTTP上的REST API进行通信。对于Electron，后端以及前端均在本地运行，而在远程环境中，后端将在远程主机上运行。
 
-Both the frontend and backend processes have their dependency injection (DI)
-container (see below) to which extensions can contribute.
+前端和后端过程都具有其依赖项注入（DI）容器（请参见下文），扩展的开发也需要基于 DI。
 
-## Frontend
+## 前端
 
-The frontend process represents the client and renders the UI. In the browser,
-it simply runs in the rendering loop, while in Electron it runs in an Electron
-Window, which basically is a browser with additional Electron and Node.js APIs.
-Therefore, any frontend code may assume browser as a platform but not Node.js.
+前端进程负责渲染UI，在浏览器中，它只在渲染循环中运行，而在Electron中，它在Electron Window（实质上是能调用Electron和Node.js API的浏览器）中运行。因此，任何前端代码都可以将浏览器作为平台，而不是Node.js。
 
-The startup of the frontend process will first load the DI modules of all
-contributing extensions before it obtains an instance of `FrontendApplication`
-and call `start()` on it.
+前端进程的启动将首先获取所有扩展的DI模块，然后再获取 `FrontendApplication` 实例并在其上调用 `start()`。
 
-## Backend
+## 后端
 
-The backend process runs on Node.js. We use _express_ as the HTTP server. It
-may not use any code that requires a browser (DOM API) as the platform.
+后端进程在Node.js上运行。 我们使用express作为HTTP服务器。 它可能不使用任何需要浏览器（DOM API）作为平台的代码。
 
-The startup of the backend application will first load the DI modules of all
-contributing extensions before it obtains an instance of `BackendApplication`
-and calls `start(portNumber)` on it.
+后端应用程序的启动需要在获取 `BackendApplication` 实例并在其上调用 `start(portNumber)` 之前载所有扩展的DI模块。
 
-By default the backend's express server also serves the code for the frontend.
+默认情况下，后端的 express 服务器还可以下发前端的代码。
 
-## Separation By Platform
+## 平台分离
 
-In an extension's top folder we have an additional layer of folders to separate
-by platform:
+在扩展包的顶层文件夹中，包含如下子目录层级来区分各个平台：
 
- - The `common` folder contains code that doesn't depend on any runtime.
- - The `browser` folder contains code requiring a modern browser as a platform
-   (DOM API).
- - The `electron-browser` folder contains frontend code that requires DOM API
-   as well as Electron renderer-process specific APIs.
- - The `node` folder contains (backend) code requiring Node.js as a platform.
- - The `node-electron` folder contains (backend) code specific for Electron.
+ - `common` 目录下包含不依赖运行时的代码。
+ - `browser` 目录下包含的代码需要运行在现代浏览器平台上(DOM API)。
+ - `electron-browser` 目录下包含了需要 DOM API 及 Electron 渲染进程特定的 APIs 的前端代码
+ - `node` 目录下包含了需要运行在 Node.js 下的后端代码。
+ - `node-electron` 目录下包含了 Electron 特定的后端代码。
 
-## See also
+## 更多
 
-For a high level overview of Theia's Architecture, see this document:
+有关Theia架构的高级概述，请参阅以下文档：
 
 [Multi-Language IDE Implemented in JS - Scope and Architecture](https://docs.google.com/document/d/1aodR1LJEF_zu7xBis2MjpHRyv7JKJzW7EWI9XRYCt48)

@@ -5,16 +5,11 @@ title: TextMate Coloring
 
 # TextMate Support in Theia
 
-TextMate grammars allow us to colorize most source files with accurate
-decorations, even if it is only at the syntactic level (no language deep
-understanding). Semantic coloring can be provided by Language Servers, among
-others.
+TextMate语法使我们能够为大多数源文件进行准确的代码高亮修饰，即使只是在语法层面也是如此。语义代码高亮修饰可以由Language Server等提供。
 
-TextMate grammars majorly come in two formats: `.plist` and `.tmLanguage.json`,
-Theia supports both.
+TextMate语法主要有两种格式：`.plist` 和 `.tmLanguage.json`，Theia都支持。
 
-You can read more about TextMate grammars
-[here](https://macromates.com/manual/en/language_grammars).
+您可以在此处阅读有关TextMate语法的[更多信息](https://macromates.com/manual/en/language_grammars)。
 
 > Note: grammars for a particular language should go inside the dedicated
 > extension for said language. `@theia/textmate-grammars` is just a registry for

@@ -2,18 +2,18 @@
 title: Authoring Plug-ins
 ---
 
-#  Authoring Theia Plug-ins
+#  开发插件
 
 Let's create our first Theia plug-in. As an example, we are going to register a command _Hello World_ that displays a notification "Hello world!". This article is guiding you through all the necessary steps.
 
-## Theia’s Architecture
+## Theia 架构
 
 
-### Plug-in vs Extension
+### 插件 vs 扩展
 
 Theia is an extensible IDE. You may already have heard extensions as being a way to customize the IDE. Plug-ins is a new extensibility model that has been added recently into Theia. Here are the main differences between plug-ins vs the extensions.
 
-#### Plug-ins
+#### 插件
 
 pros:
  + Code isolation: as plug-in's code in running in separate processes, it can't block Theia core processes.
@@ -30,7 +30,7 @@ cons:
 
 
 
-### Design
+### 设计
 A Theia app is composed of a core providing a set of widgets, commands, handlers, etc. for a specific functionality.
 
 Theia defines a runtime API allowing plug-ins to customize the IDE and add their behaviour to various aspects of the application.
@@ -42,12 +42,12 @@ There are two natures of plug-ins:
  - Backend plug-in. If you're familiar with VS Code extensions, it's very close. The plug-in's code is running in its own process on the server side. API is called and it's the API that will send some actions on user's browser/UI to register new commands, etc. All the callbacks are executed on the server side on a dedicated process.
  - Frontend plug-in. In that case, callbacks are executed in a worker thread on the UI/browser. These plug-ins are only authorized to use "browser compliant" modules. For example opening or writing to a file is impossible as all the code of the plug-in is running on the browser side. But this approach is helpful if you really want to have some stuff on the client side to avoid some network operations.
 
-## Prerequisites
+## 先决条件
 
 Having a running Theia instance. (v0.3.12+)
 Instructions for getting Theia are available from [Theia repository](https://github.com/eclipse-theia/theia#getting-started).
 
-## Project Layout
+## 项目结构
 
 We are going to create a new project and for this we will create a folder named `theia-hello-world-plugin` that will contain the source code of the project.
 
@@ -77,7 +77,7 @@ Pick up default values for each questions.
 
 At this step, in `theia-hello-world-plugin` folder there is a plug-in that is already built with associated source code.
 
-## Implementing the Plug-in
+## 实现插件
 
 Let's have look at the generated code now.
 
@@ -152,7 +152,7 @@ The `start()` method is called when loading the plug-in. In this method, there i
 
 There is an empty `stop()` method that could be used to do something when the plug-in is stopped. This method is optional and may be removed if empty.
 
-## Executing the Plug-in
+## 执行插件
 
 Now we want to see the plug-in in action. For this purpose, there is a mode called `hosted mode` within Theia. When using this mode, we can develop the plug-in within one instance of Theia, and then we can deploy the plug-in in another instance of Theia. So it's very easy to spawn the plug-in and test it.
 
@@ -178,12 +178,12 @@ Select it and you'll see a notification `Hello World` on the screen.
 <img class="doc-image" src="/hello-world-notification.png" alt="Hello World notification" style="max-width: 600px">
 
 
-## Developing the Plug-in
+## 开发插件
 
 As previously said, Theia API is provided through TypeScript, then there is code completion and JsDoc available when developing.
 
 
-## Updating the Plug-in
+## 更新插件
 
 Let say you want to change the information message from `Hello World` to `Hello Theia`. Let's go into the `Hosted Plugin: running` instance (status bar), edit the TypeScript file `src/theia-hello-world-plugin-backend-plugin.ts` and perform the following change.
 Replace `theia.window.showInformationMessage('Hello World!');` by  `theia.window.showInformationMessage('Hello Theia!');`
@@ -193,10 +193,10 @@ Then you'll only have to refresh the tab of the `Development Host` instance, the
 
 Note: you may use watch mode as well.
 
-## API of plug-ins
+## 插件API
 [Browse typedoc of plug-ins](https://eclipse-theia.github.io/theia/docs/next/modules/plugin.__theia_plugin_-1.html)
 
-## VS Code implementation
-Theia is providing VS Code API. Check the following link to get the current status of what is implemented.
+## VS Code 实现
+Theia正在提供VS Code API。查看以下链接获取实现内容的当前状态。
 [Compare Theia vs VS Code API](https://che-incubator.github.io/vscode-theia-comparator/status.html)
 

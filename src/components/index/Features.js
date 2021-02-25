@@ -41,25 +41,22 @@ const StyledFeatures = styled.div`
 const features = [
     {
         img: <img src={IconCloudScreen} alt="Cloud Screen" />,
-        title: "Cloud & Desktop",
-        paragraphs: ['Not sure whether you need a web or desktop version or both?', 'With Theia you can develop one IDE and run it in browsers or native desktop application from a single source.']
+        title: "云端 & 桌面端",
+        paragraphs: ['不确定自己是否需要开发web端或是桌面端或是二者兼备?', '通过 Theia，你只需要开发一次，就可以让IDE跑在浏览器或桌面应用程序上。']
     },
     {
         img: <img src={IconOpenSource} alt="Vendor Neutral Open Source" />,
         title: "Vendor Neutral",
-        paragraphs: ['The Theia project is hosted at the Eclipse Foundation, a not-for-profit corporation, and is developed by a diverse community.', <>
-            Unlike other "open-source" projects, projects hosted at an Open-Source Foundation are protected against single-vendor decisions against the interest of the diverse community.
-            Learn more <a href="https://www.eclipse.org/projects/dev_process/">here</a>.
+        paragraphs: ['Theia项目由非营利性公司Eclipse Foundation托管，由多元化社区开发。', <>
+            与其他“开源项目”项目不同，在开源项目基金会托管的项目是受到保护的，不会因单一采用者的决定而损害多元化社区的利益。<a href="https://www.eclipse.org/projects/dev_process/">了解更多</a>。
         </>]
     },
     {
         img: <img src={IconExtension} alt="Icon Extension" />,
-        title: "Extensible",
-        paragraphs: ['Theia is designed in a modular way to allow extenders and adopters customizing and extending every aspect of it.', 
+        title: "可扩展的",
+        paragraphs: ['Theia以模块化方式设计，允许扩展者和采用者自定义和扩展其各个方面。', 
         <>
-            Composing a custom IDE-like product is as easy as listing all needed extensions in a package.json file. Adding new
-            functionality by implementing <Link to='/docs/authoring_extensions'>
-            your own extensions</Link> is easy, too and provides all the flexibility you need.
+            编写类IDE的产品就像在package.json文件中列出所有需要的扩展一样容易。通过实现<Link to='/docs/authoring_extensions'>自己的扩展</Link>来添加新功能也很容易，并且可以提供您所需的所有灵活性。
         </>]
     }
 ]
