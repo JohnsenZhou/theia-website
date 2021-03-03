@@ -41,16 +41,9 @@ export const loggerServerModule = new ContainerModule(bind => {
 import { ConnectionHandler, JsonRpcConnectionHandler } from "../../messaging/common";
 ```
 
-This imports the `JsonRpcConnectionHandler`, this factory enables you to create
-a connection handler that onConnection creates proxy object to the object that
-is called in the backend over JSON-RPC and expose a local object to JSON-RPC.
+这里引入了 `JsonRpcConnectionHandler`，它能创建一个连接处理函数，函数中的 onConnection 会为通过JSON-RPC在 backend 中调用的对象创建代理对象，并将本地对象公开给JSON-RPC。下面分析一下具体是怎么做到的。
 
-We'll see more on how this is done as we go.
-
-The `ConnectionHandler` is a simple interface that specifies the path of the
-connection and what happens on connection creation.
-
-It looks like this:
+`ConnectionHandler` 是一个简单的接口，仅仅指定了连接的 path（路径）和 建立连接时的回调 onConnection：
 
 ``` typescript
 import { MessageConnection } from "vscode-jsonrpc";
@@ -67,14 +60,11 @@ export interface ConnectionHandler {
 import { ILoggerServer, ILoggerClient } from '../../application/common/logger-protocol';
 ```
 
-The logger-protocol.ts file contains the interfaces that the server and the
-client need to implement.
+logger-protocol.ts 文件包含了 server 和 client 需要 implement 的接口。
 
-The server here means the backend object that will be called over JSON-RPC
-and the client is a client object that can receive notifications from the
-backend object.
 
-I'll get more into that later.
+这里的 server 表示将通过JSON-RPC调用的后端对象，client 是一个客户端对象，可以接收来自
+后端的对象。
 
 ``` typescript
     bind<ConnectionHandler>(ConnectionHandler).toDynamicValue(ctx => {
@@ -89,7 +79,7 @@ ContributionProvider in messaging-module.ts
 So as the MessagingContribution starts (onStart is called) it creates a
 websocket connection for all bound ConnectionHandlers.
 
-like so (from messaging-module.ts):
+如下 (messaging-module.ts):
 
 ``` typescript
 constructor( @inject(ContributionProvider) @named(ConnectionHandler) protected readonly handlers: ContributionProvider<ConnectionHandler>) {
